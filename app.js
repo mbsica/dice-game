@@ -1,20 +1,8 @@
-//Тоглогчийн ээлжийн хадгалах хувьсагч Player1 - 0 Player2-1
-var activePlayer = 0;
-//Тоглогчидын цуглуулсан оноог хадгалах хувьсагч
-var scores = [0, 0];
-//Ээлжийн оноог хадгалах хувьсагч
-var roundScore = 0;
-//Шооны аль талаараа буусаныг хадгалах хувьсагч (1-6)
-
-// initializing game
-
-document.getElementById("score-0").textContent = "0";
-document.getElementById("score-1").textContent = "0";
-
-document.getElementById("current-0").textContent = "0";
-document.getElementById("current-1").textContent = "0";
+var activePlayer, scores, roundScore;
 
 var diceDom = document.querySelector(".dice");
+
+gameInit();
 
 diceDom.style.display = "none";
 
@@ -57,9 +45,7 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
 });
 
 // Шинэ тоглооом эхлүүлэх товчний эвэнт листенер
-document.querySelector(".btn-new").addEventListener("click", function () {
-  //new game
-});
+document.querySelector(".btn-new").addEventListener("click", gameInit);
 
 function changePlayer() {
   roundScore = 0;
@@ -71,5 +57,33 @@ function changePlayer() {
   document
     .querySelector(".player-" + activePlayer + "-panel")
     .classList.add("active");
+  diceDom.style.display = "none";
+}
+
+function gameInit() {
+  //Тоглогчийн ээлжийн хадгалах хувьсагч Player1 - 0 Player2-1
+  activePlayer = 0;
+  //Тоглогчидын цуглуулсан оноог хадгалах хувьсагч
+  scores = [0, 0];
+  //Ээлжийн оноог хадгалах хувьсагч
+  roundScore = 0;
+  //Шооны аль талаараа буусаныг хадгалах хувьсагч (1-6)
+
+  // initializing game
+
+  document.getElementById("score-0").textContent = "0";
+  document.getElementById("score-1").textContent = "0";
+
+  document.getElementById("name-0").textContent = "Player 1";
+  document.getElementById("name-1").textContent = "Player 2";
+
+  document.querySelector(".player-0-panel").classList.remove("winner");
+  document.querySelector(".player-1-panel").classList.remove("winner");
+  document.querySelector(".player-0-panel").classList.remove("active");
+  document.querySelector(".player-1-panel").classList.remove("active");
+  document.querySelector(".player-0-panel").classList.add("active");
+
+  document.getElementById("current-0").textContent = "0";
+  document.getElementById("current-1").textContent = "0";
   diceDom.style.display = "none";
 }
