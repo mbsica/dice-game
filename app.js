@@ -29,15 +29,47 @@ document.querySelector(".btn-roll").addEventListener("click", function () {
     roundScore += diceNumber;
     document.getElementById("current-" + activePlayer).textContent = roundScore;
   } else {
-    roundScore = 0;
-    document.getElementById("current-" + activePlayer).textContent = roundScore;
+    changePlayer();
+  }
+});
+
+// Hold товчны эвэнт листенер
+document.querySelector(".btn-hold").addEventListener("click", function () {
+  // round score -г тоглогчийн оноон дээр нэмээд
+  // тоглогчийн ээлжийн солино.
+  // round score -г тэглэнэ
+  scores[activePlayer] += roundScore;
+
+  document.getElementById("score-" + activePlayer).textContent =
+    scores[activePlayer];
+
+  if (scores[activePlayer] >= 20) {
+    document.getElementById("name-" + activePlayer).textContent = "Winner!";
+    document
+      .querySelector(".player-" + activePlayer + "-panel")
+      .classList.add("winner");
     document
       .querySelector(".player-" + activePlayer + "-panel")
       .classList.remove("active");
-    activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.add("active");
-    diceDom.style.display = "none";
+  } else {
+    changePlayer();
   }
 });
+
+// Шинэ тоглооом эхлүүлэх товчний эвэнт листенер
+document.querySelector(".btn-new").addEventListener("click", function () {
+  //new game
+});
+
+function changePlayer() {
+  roundScore = 0;
+  document.getElementById("current-" + activePlayer).textContent = roundScore;
+  document
+    .querySelector(".player-" + activePlayer + "-panel")
+    .classList.remove("active");
+  activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
+  document
+    .querySelector(".player-" + activePlayer + "-panel")
+    .classList.add("active");
+  diceDom.style.display = "none";
+}
