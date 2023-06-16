@@ -1,4 +1,4 @@
-var activePlayer, scores, roundScore;
+var activePlayer, scores, roundScore, isNewGame; // isGameOver нь тоглоом дууссан эсэхийн төлөвийг хадгалах хувьсагч
 
 var diceDom = document.querySelector(".dice");
 
@@ -8,39 +8,49 @@ diceDom.style.display = "none";
 
 // Шоог шидэх эвэнт листенер
 document.querySelector(".btn-roll").addEventListener("click", function () {
-  var diceNumber = Math.floor(Math.random() * 6) + 1;
-  diceDom.style.display = "block";
-  diceDom.src = "dice-" + diceNumber + ".png";
-  // Тоглогчын ээлжийн оноог өөрчилнө.
-  // Буусан тоо нь 1 бол ээлж солино.
-  if (diceNumber !== 1) {
-    roundScore += diceNumber;
-    document.getElementById("current-" + activePlayer).textContent = roundScore;
+  if (isNewGame) {
+    var diceNumber = Math.floor(Math.random() * 6) + 1;
+    diceDom.style.display = "block";
+    diceDom.src = "dice-" + diceNumber + ".png";
+    // Тоглогчын ээлжийн оноог өөрчилнө.
+    // Буусан тоо нь 1 бол ээлж солино.
+    if (diceNumber !== 1) {
+      roundScore += diceNumber;
+      document.getElementById("current-" + activePlayer).textContent =
+        roundScore;
+    } else {
+      changePlayer();
+    }
   } else {
-    changePlayer();
+    //buttong idewhgvi blgoh
   }
 });
 
 // Hold товчны эвэнт листенер
 document.querySelector(".btn-hold").addEventListener("click", function () {
-  // round score -г тоглогчийн оноон дээр нэмээд
-  // тоглогчийн ээлжийн солино.
-  // round score -г тэглэнэ
-  scores[activePlayer] += roundScore;
+  if (isNewGame) {
+    // round score -г тоглогчийн оноон дээр нэмээд
+    // тоглогчийн ээлжийн солино.
+    // round score -г тэглэнэ
+    scores[activePlayer] += roundScore;
 
-  document.getElementById("score-" + activePlayer).textContent =
-    scores[activePlayer];
+    document.getElementById("score-" + activePlayer).textContent =
+      scores[activePlayer];
 
-  if (scores[activePlayer] >= 20) {
-    document.getElementById("name-" + activePlayer).textContent = "Winner!";
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.add("winner");
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.remove("active");
+    if (scores[activePlayer] >= 20) {
+      isNewGame = false;
+      document.getElementById("name-" + activePlayer).textContent = "Winner!";
+      document
+        .querySelector(".player-" + activePlayer + "-panel")
+        .classList.add("winner");
+      document
+        .querySelector(".player-" + activePlayer + "-panel")
+        .classList.remove("active");
+    } else {
+      changePlayer();
+    }
   } else {
-    changePlayer();
+    //buttong idewhgvi blgh
   }
 });
 
@@ -67,7 +77,7 @@ function gameInit() {
   scores = [0, 0];
   //Ээлжийн оноог хадгалах хувьсагч
   roundScore = 0;
-  //Шооны аль талаараа буусаныг хадгалах хувьсагч (1-6)
+  isNewGame = true;
 
   // initializing game
 
